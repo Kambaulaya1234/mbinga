@@ -92,7 +92,7 @@ class Departments extends Component
     {
         $department = Department::findOrFail($id);
         $this->department_id = $id;
-        $this->name = $department->input;
+        $this->name = $department->name;
   
         //$this->updateMode = true;
         $this->openModal(); 

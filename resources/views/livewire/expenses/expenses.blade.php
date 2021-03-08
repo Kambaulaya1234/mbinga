@@ -16,11 +16,13 @@
                 </div>
             @endif
 
+            @can('expense-create')              
             <button wire:click="create()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Create Expenses</button>
             
             @if($isModal)
                 @include('livewire.expenses.create')
             @endif
+            @endcan
 
             <table class="table-fixed w-full">
                 <thead>
@@ -33,7 +35,10 @@
                         <th class="px-4 py-2">Name</th>
                         <th class="px-4 py-2">Description</th>
                         <th class="px-4 py-2">Total</th>
-                        <th class="px-4 py-2">Action</th>
+
+                        @can('expense-create')    
+                         <th class="px-4 py-2">Action</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -63,10 +68,15 @@
                             @money($t)
                             </td>
 
+                            @can('expense-create') 
                             <td class="border px-4 py-2">
-                                <button wire:click="edit({{ $row->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
-                                <button wire:click="delete({{ $row->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                                  <button wire:click="edit({{ $row->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                            @endcan
+
+                            @can('expense-create') 
+                                  <button wire:click="delete({{ $row->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
                             </td>
+                            @endcan
                         </tr>
                     @empty
                         <tr>

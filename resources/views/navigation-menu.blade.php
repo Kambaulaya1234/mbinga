@@ -17,12 +17,6 @@
                     </x-jet-nav-link>
                 </div>
 
-                <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('posts') }}" :active="request()->routeIs('posts')">
-                        {{ __('Posts') }}
-                    </x-jet-nav-link>
-                </div> -->
-
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
                         {{ __('Users') }}
@@ -63,10 +57,10 @@
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
-                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
-                    <div class="ml-3 relative">
-                        <x-jet-dropdown align="right" width="60">
-                            <x-slot name="trigger">
+                {{-- @if (Laravel\Jetstream\Jetstream::hasTeamFeatures()) --}}
+                    {{-- <div class="ml-3 relative">
+                        <x-jet-dropdown align="right" width="60"> --}}
+                            {{-- <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
                                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                         {{ Auth::user()->currentTeam->name }}
@@ -76,9 +70,9 @@
                                         </svg>
                                     </button>
                                 </span>
-                            </x-slot>
+                            </x-slot> --}}
 
-                            <x-slot name="content">
+                            {{-- <x-slot name="content">
                                 <div class="w-60">
                                     <!-- Team Management -->
                                     <div class="block px-4 py-2 text-xs text-gray-400">
@@ -110,7 +104,7 @@
                             </x-slot>
                         </x-jet-dropdown>
                     </div>
-                @endif
+                @endif --}}
 
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative">
@@ -144,14 +138,18 @@
                             </x-jet-dropdown-link>
 
                             <x-jet-dropdown-link href="{{ route('roles') }}">
-                                {{ __('User Management') }}
+                                {{ __('Role Management') }}
                             </x-jet-dropdown-link>
 
-                            @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                            <x-jet-dropdown-link href="{{ route('permissions') }}">
+                                {{ __('Permissions') }}
+                            </x-jet-dropdown-link>
+
+                            {{-- @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
                                     {{ __('API Tokens') }}
                                 </x-jet-dropdown-link>
-                            @endif
+                            @endif --}}
 
                             <div class="border-t border-gray-100"></div>
 
@@ -231,7 +229,7 @@
                 </form>
 
                 <!-- Team Management -->
-                @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
+                {{-- @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="border-t border-gray-200"></div>
 
                     <div class="block px-4 py-2 text-xs text-gray-400">
@@ -259,7 +257,7 @@
                     @foreach (Auth::user()->allTeams() as $team)
                         <x-jet-switchable-team :team="$team" component="jet-responsive-nav-link" />
                     @endforeach
-                @endif
+                @endif --}}
             </div>
         </div>
     </div>

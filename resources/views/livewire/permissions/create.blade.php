@@ -12,26 +12,25 @@
                     <div class="">
                         
                         <div class="mb-4">
-                            <label for="formEmail" class="block text-gray-700 text-sm font-bold mb-2">Role Name:</label>
+                            <label for="formEmail" class="block text-gray-700 text-sm font-bold mb-2">Permission Name:</label>
                             <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="formEmail" wire:model="name">
                             @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
 
                         <div class="mb-4">
                             <div class="mb-4">
-                            <strong>Permissions:</strong>
+                            <strong>Assign Permission to Roles:</strong>
                             </div>
                             <label class="inline-flex items-center">
-                                @foreach($permissions as $permission)
-                                   <input type="checkbox" value="{{ $permission->id }}" {{ (old('permission_id')  == 'permission->id') ? 'chaked' : '' }}
-                                    id="formEmail" wire:model="permission_id" class="form-checkbox h-6 w-6 text-green-500">     
-                                  <span class="ml-3 text-sm">{{ $permission->name }}</span>
+                                @foreach($roles as $role)
+                                   <input type="checkbox" value="{{ $role->id }}" {{ (old('roles_id')  == 'roles->id') ? 'chaked' : '' }}
+                                    id="formEmail" wire:model="roles_id" class="form-checkbox h-6 w-6 text-green-500">     
+                                  <span class="ml-3 text-sm">{{ $role->name }}</span>
                             </label>
-                                  <br/>
+                                <br/>
                                 @endforeach
-                            @error('permission_id') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('roles_id') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
-
                     </div>
                 </div>
     

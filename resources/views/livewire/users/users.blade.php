@@ -16,18 +16,23 @@
                 </div>
             @endif
 
+            {{-- @can('role-list') --}}
             <button wire:click="create()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Create New User</button>
-            
             @if($isModal)
                 @include('livewire.users.create')
             @endif
+            {{-- @endcan --}}
 
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100">
                         <th class="px-4 py-2">Name</th>
                         <th class="px-4 py-2">Email</th>
+                        <th class="px-4 py-2">Role</th>
+
+                        {{-- @can('role-list')  --}}
                         <th class="px-4 py-2">Action</th>
+                        {{-- @endcan --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -36,9 +41,19 @@
                             <td class="border px-4 py-2">{{ $row->name }}</td>
                             <td class="border px-4 py-2">{{ $row->email }}</td>
                             <td class="border px-4 py-2">
+                                @if(!empty($row->getRoleNames()))
+                                  @foreach($row->getRoleNames() as $v)
+                                     <label class="badge badge-success">{{ $v }}</label>
+                                  @endforeach
+                                @endif
+                            </td>
+
+                            {{-- @can('role-list')                                --}}
+                            <td class="border px-4 py-2">
                                 <button wire:click="edit({{ $row->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
                                 <button wire:click="delete({{ $row->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
                             </td>
+                            {{-- @endcan --}}
                         </tr>
                     @empty
                         <tr>
@@ -47,6 +62,7 @@
                     @endforelse
                 </tbody>
             </table>
+            
         </div>
     </div>
 </div>

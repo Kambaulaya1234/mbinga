@@ -18,15 +18,15 @@ class Roles extends Component
     //      $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
     //      $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     // }
-    public $name,$permissions, $rolePermissions, $roles;
+    public $name,$permissions, $rolePermissions, $roles, $role_id, $permission;
     //public $updateMode = false;
-    public $permission = [];
+    public $permission_id = [];
     public $isModal = 0;
 
     public function render()
     {
         $this->roles = Role::orderBy('id','DESC')->get();
-        $this->permission = Permission::get();
+        $this->permissions = Permission::get();
         return view('livewire.roles.roles');
         
     }
@@ -47,13 +47,12 @@ class Roles extends Component
     public function create()
     {
         $this->permissions = Permission::all();
-        //KEMUDIAN DI DALAMNYA KITA MENJALANKAN FUNGSI UNTUK MENGOSONGKAN FIELD
+        
         $this->resetFields();
-        //DAN MEMBUKA MODAL
+        
         $this->openModal();
     }
     
-        //FUNGSI INI UNTUK MENUTUP MODAL DIMANA VARIABLE ISMODAL KITA SET JADI FALSE
         public function closeModal()
         {
             $this->isModal = false;
@@ -73,20 +72,51 @@ class Roles extends Component
 
     public function store()
     {
-        //$permission = $this->permission;
-            $validatedDate = $this->validate([
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required',
-        ]);
+        if(empty($this->role_id))
+        {
+            $this->validate([
+                'name' => 'required|unique:roles,name',
+                'permission_id' => 'required',
+            ]);
+        }
 
-        //$permissions = $this->permission;
+        $role = Role::updateOrCreate(['id' => $this->role_id],
+            ['name' => $this->name]);
+
+        $permissions = $this->permission_id;
     
-        $role = Role::create(['name' => $this->name]);
-        $role->syncPermissions($this->permission);
+        if(!empty($this->role_id))
+        {  
+            $p_all = Permission::all();//Get all permissions
+    
+            foreach ($p_all as $p) {
+                $role->revokePermissionTo($p); //Remove all permissions associated with role
+            }
+    
+            foreach ($permissions as $permission) {
+                $p = Permission::where('id', '=', $permission)->firstOrFail(); //Get corresponding form //permission in db
+                $role->givePermissionTo($p);  //Assign permission to role
+            }
 
-       session()->flash('message', $this->role_id ? $this->name . ' Role Created Successfuly': $this->name . 'Role Created Successfuly');
-       $this->closeModal(); //TUTUP MODAL
-       $this->resetFields();
+            session()->flash('message', $this->role_id ? $this->name . ' Role Updated Successfuly': $this->name . 'Role Updated Successfuly');
+            $this->closeModal(); //TUTUP MODAL
+            $this->resetFields();
+        }
+
+        if(empty($this->role_id))
+        {
+            //$role->syncPermissions($this->permission_id);
+            foreach ($permissions as $permission) {
+                $p = Permission::where('id', '=', $permission)->firstOrFail(); 
+             //Fetch the newly created role and assign permission
+                $role = Role::where('name', '=', $name)->first(); 
+                $role->givePermissionTo($p);
+            }
+    
+           session()->flash('message', $this->role_id ? $this->name . ' Role Created Successfuly': $this->name . 'Role Created Successfuly');
+           $this->closeModal(); //TUTUP MODAL
+           $this->resetFields();
+        }
     }
 
     public function edit($id)
@@ -96,42 +126,11 @@ class Roles extends Component
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
-        // dd($expense);
-        $this->expense_id = $id;
-        $this->date = $expense->date;
+
+        $this->name = $roles->name; 
+        $this->role_id = $id;
 
         $this->openModal(); 
-    }
-    
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
-        ]);
-    
-        $role = Role::find($id);
-        $role->name = $request->input('name');
-        $role->save();
-    
-        $role->syncPermissions($request->input('permission'));
-    
-        return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully');
     }
 
     public function cancel()
@@ -149,7 +148,7 @@ class Roles extends Component
     {
        // DB::table("roles")->where('id',$id)->delete();
         Role::find($id)->delete();
-        session()->flash('message', 'role Deleted Successfully.');
+        session()->flash('message', 'Role Deleted Successfully.');
     }
 
 }

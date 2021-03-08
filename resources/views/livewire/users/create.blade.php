@@ -8,28 +8,47 @@
         
         <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form>
+                @csrf
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="">
                         
                         <div class="mb-4">
-                            <label for="formEmail" class="block text-gray-700 text-sm font-bold mb-2">Role Name:</label>
+                            <label for="formEmail" class="block text-gray-700 text-sm font-bold mb-2">User Name:</label>
                             <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="formEmail" wire:model="name">
                             @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
 
                         <div class="mb-4">
+                            <label for="formEmail" class="block text-gray-700 text-sm font-bold mb-2">User Email:</label>
+                            <input type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="formEmail" wire:model="email">
+                            @error('email') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+
+                        <div class="mt-4">
+                            {{ Form::label('password', 'Password') }}<br>
+                            {{ Form::password('password', array('class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','wire:model="password"')) }}
+                            @error('password') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+           
+                        <div class="mt-4">
+                            {{ Form::label('password', 'Confirm Password') }}<br>
+                            {{ Form::password('password_confirmation', array('class' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline','wire:model="password_confirmation"')) }}
+                            @error('password_confirmation') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+
+                        <div class="mb-4">
                             <div class="mb-4">
-                            <strong>Permissions:</strong>
+                            <strong>User Roles:</strong>
                             </div>
                             <label class="inline-flex items-center">
-                                @foreach($permissions as $permission)
-                                   <input type="checkbox" value="{{ $permission->id }}" {{ (old('permission_id')  == 'permission->id') ? 'chaked' : '' }}
-                                    id="formEmail" wire:model="permission_id" class="form-checkbox h-6 w-6 text-green-500">     
-                                  <span class="ml-3 text-sm">{{ $permission->name }}</span>
+                                @foreach($roles as $role)
+                                   <input type="checkbox" value="{{ $role->id }}" {{ (old('roles_id')  == 'roles->id') ? 'chaked' : '' }}
+                                    id="formEmail" wire:model="roles_id" class="form-checkbox h-6 w-6 text-green-500">     
+                                  <span class="ml-3 text-sm">{{ $role->name }}</span>
                             </label>
-                                  <br/>
+                                <br/>
                                 @endforeach
-                            @error('permission_id') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('roles_id') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
 
                     </div>

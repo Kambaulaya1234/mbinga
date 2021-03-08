@@ -1,6 +1,7 @@
 <?php
   
 namespace App\Http\Livewire\expenses;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
   
 use Livewire\Component;
@@ -101,12 +102,6 @@ class Expenses extends Component
             'description' => $this->description,
         ])->users()->attach($user_ids);
 
-
-  
-       // session()->flash('message', 'expense Created Successfully.');
-  
-       // $this->resetInputFields();
-
        session()->flash('message', $this->expense_id ? $this->name . ' Expenses Created Successfuly': $this->name . 'Expenses Created Successfuly');
        $this->closeModal(); //TUTUP MODAL
        $this->resetFields();
@@ -146,17 +141,6 @@ class Expenses extends Component
         $this->resetInputFields();
     }
   
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-   
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     public function delete($id)
     {
         Expense::find($id)->delete();
