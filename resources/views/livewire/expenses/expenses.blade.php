@@ -28,13 +28,22 @@
                 <thead>
                     <tr class="bg-gray-100">
                         <th class="px-4 py-1">S/N</th>
-                        <th class="px-4 py-2">Date</th>
-                        <th class="px-4 py-2">Type</th>
-                        <th class="px-4 py-2">Used By</th>
-                        <th class="px-4 py-2">Category</th>
+                        <th class="px-4 py-2">Created AT</th>
+                        <th class="px-4 py-2">Created By</th>
                         <th class="px-4 py-2">Name</th>
+                        <th class="px-4 py-2">Payment Type</th>
+                        <th class="px-4 py-2">Amount</th>
+                        <th class="px-4 py-2">Paid To</th>
+                        <th class="px-4 py-2">Paid At</th>
+                        <th class="px-4 py-2">Start</th>
+                        <th class="px-4 py-2">End</th>
+                        <th class="px-4 py-2">Category</th>
+                        <th class="px-4 py-2">Department</th>
                         <th class="px-4 py-2">Description</th>
+                        <th class="px-4 py-2">Tags</th>
                         <th class="px-4 py-2">Total</th>
+                        <th class="px-4 py-2">Approved By</th>
+                        <th class="px-4 py-2">Approved At</th>
 
                         @can('expense-create')    
                          <th class="px-4 py-2">Action</th>
@@ -45,20 +54,27 @@
                     @forelse($expenses as $key => $row)
                         <tr>
                             <td class="border px-4 py-1">{{ $key + 1 }}</td>
-                            <td class="border px-4 py-2">{{ $row->date }}</td>
-                            <td class="border px-4 py-2">{{ $row->type }}</td>
+                            <td class="border px-4 py-2">{{ $row->created_at }}</td>
 
                             <td class="border px-4 py-2">
-                               @foreach($row->users as $v)
-                                 <label class="badge badge-success"> {{ $v->name }} </label>
-                               @endforeach
+                                @foreach($row->created_by as $v)
+                                <label class="badge badge-success"> {{ $v->name }} </label>
+                                @endforeach
                             </td>
 
+                            <td class="border px-4 py-2">
+                                @foreach($row->paid_to as $v)
+                                <label class="badge badge-success"> {{ $v->name }} </label>
+                                @endforeach
+                            </td>
+                            
                             <td class="border px-4 py-2">{{ $row->category->name }}</td>
+                            <td class="border px-4 py-2">{{ $row->payment_type }}</td>
                             <td class="border px-4 py-2">{{ $row->name }}</td>
+                            <td class="border px-4 py-2">{{ $row->amount }}</td>
                             <td class="border px-4 py-2">{{ $row->description }}</td>
 
-                            <td class="border px-4 py-2">
+                            {{-- <td class="border px-4 py-2">
                             <div style='display:none'>
                               {{$t = 0}}
                                 @for($i=0; $i<count($row->users); $i++)
@@ -66,7 +82,7 @@
                                 @endfor
                             </div>
                             @money($t)
-                            </td>
+                            </td> --}}
 
                             @can('expense-create') 
                             <td class="border px-4 py-2">

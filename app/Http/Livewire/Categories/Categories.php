@@ -42,24 +42,20 @@ class Categories extends Component
         public function resetFields()
         {
             $this->name = '';
-            $this->amount = '';
+            // $this->amount = '';
         }
-  
-    private function resetInputFields(){
-        $this->name = '';
-        $this->amount = '';
-    }
 
     public function store()
     {
-        $validatedDate = $this->validate([
+        $validatedData = $this->validate([
             'name' => 'required',
-            'amount' => 'required',
+            // 'amount' => 'required',
         ]);
+
   
         Category::updateOrCreate(['id' => $this->category_id],[
             'name' => $this->name,
-            'amount' => $this->amount,
+            // 'amount' => $this->amount,
         ]);
 
        session()->flash('message', $this->category_id ? $this->name . ' Category Created Successfuly': $this->name . 'Category Created Successfuly');
@@ -77,7 +73,7 @@ class Categories extends Component
         $category = Category::findOrFail($id);
         $this->category_id = $id;
         $this->name = $category->name;
-        $this->amount = $category->amount;
+        // $this->amount = $category->amount;
   
         //$this->updateMode = true;
         $this->openModal(); 

@@ -63,11 +63,21 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function expenses()
+    public function paid_to()
     {
-    	return $this->belongsToMany(Expense::class, 'expense_user');
+    	return $this->belongsToMany(Expense::class, 'expense_paid_to', 'expense_id');
     }
 
+    public function created_by()
+    {
+    	return $this->belongsToMany(Expense::class, 'expense_created_by', 'expense_id' );
+    }
+
+    public function approved_by()
+    {
+    	return $this->belongsToMany(Expense::class, 'expense_approved_by', 'expense_id');
+    }
+    
     public function income(){
         return $this->hasOne(User::class);
   
@@ -76,5 +86,10 @@ class User extends Authenticatable
     public function department(){
         return $this->hasOne(Department::class);
   
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
     }
 }

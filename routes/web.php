@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\Members; //Load class Members 
 use App\Http\Livewire\Posts\Posts;
 use App\Http\Livewire\Users\Users;
 use App\Http\Livewire\Roles\Roles;
@@ -35,7 +34,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::group(['middleware' => ['auth']], function() {
     Route::get('roles', Roles::class)->name('roles');
     Route::get('permissions', Permissions::class)->name('permissions');
-    Route::get('member', Members::class)->name('member'); //Tambahkan routing ini
     Route::get('posts', Posts::class)->name('posts'); 
     Route::get('users', Users::class)->name('users');
     Route::get('expenses', Expenses::class)->name('expenses'); 

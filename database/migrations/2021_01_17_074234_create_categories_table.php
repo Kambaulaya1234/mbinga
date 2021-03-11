@@ -16,7 +16,8 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable();
-            $table->decimal('amount', 15, 2)->nullable();
+            //$table->decimal('amount', 15, 2)->nullable(); //what is this for? @jigambetz
+            //nafikiri itaharibu data integrity (kwa kua kwenye category hatuna jumla unless we calculate): not sure anyway
             $table->timestamps();
         });
     }

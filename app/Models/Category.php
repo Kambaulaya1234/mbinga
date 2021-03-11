@@ -9,7 +9,7 @@ class Category extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 'amount',
+        'name',
     ];
 
     public function expense(){

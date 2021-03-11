@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -14,18 +15,21 @@ class CreateExpensesTable extends Migration
     public function up()
     {
         Schema::create('expenses', function (Blueprint $table) {
-            $table->bigIncrements('id');;
-            $table->date('date')->nullable();
-            $table->string('type');
-            // $table->decimal('amount', 15, 2);
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            // $table->unsignedBigInteger('user_id');
-            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigIncrements('id');
             $table->string('name');
             $table->string('description');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->decimal('amount', 15, 2);
+            $table->unsignedBigInteger('department_id');
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade'); 
+            $table->date('expense_start_date');
+            $table->date('expense_end_date');
+            $table->date('paid_at');
+            $table->string('payment_type');
+            $table->date('approved_at');
             $table->timestamps();
-        });
+        }); 
     }
 
     /**

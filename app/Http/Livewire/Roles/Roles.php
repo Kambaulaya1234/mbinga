@@ -109,7 +109,7 @@ class Roles extends Component
             foreach ($permissions as $permission) {
                 $p = Permission::where('id', '=', $permission)->firstOrFail(); 
              //Fetch the newly created role and assign permission
-                $role = Role::where('name', '=', $name)->first(); 
+                $role = Role::where('name', '=', $this->name)->first(); 
                 $role->givePermissionTo($p);
             }
     

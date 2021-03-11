@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Tag extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title', 'body'
+        'name'
     ];
+  
+    public function expenses(){
+      return $this->belongsToMany( 'App\Models\Expense', 'expenses_users_tags','expense_id', 'tag_id');
+    }
 }

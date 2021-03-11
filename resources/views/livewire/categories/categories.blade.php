@@ -1,6 +1,6 @@
 <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Expenses Category List
+        Category List
     </h2>
 </x-slot>
 <div class="py-12">
@@ -16,7 +16,7 @@
                 </div>
             @endif
 
-            <button wire:click="create()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Create Expenses Category</button>
+            <button wire:click="create()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Create Category</button>
             
             @if($isModal)
                 @include('livewire.categories.create')
@@ -27,7 +27,7 @@
                     <tr class="bg-gray-100">
                         <th class="px-4 py-1">S/N</th>
                         <th class="px-4 py-2">Name</th>
-                        <th class="px-4 py-2">Amount</th>
+                        {{-- <th class="px-4 py-2">Amount</th> --}}
                         <th class="px-4 py-2">Action</th>
                     </tr>
                 </thead>
@@ -36,12 +36,12 @@
                         <tr>
                             <td class="border px-4 py-1">{{ $key + 1 }}</td>
                             <td class="border px-4 py-2">{{ $row->name }}</td>
-                            <td class="border px-4 py-2">
+                            {{-- <td class="border px-4 py-2">
                                 <div style="display: none">
                                     {{ $t = $row->amount }}
                                 </div>
                                      @money($t)
-                            </td>
+                            </td> --}}
                             <td class="border px-4 py-2">
                                 <button wire:click="edit({{ $row->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
                                 <button wire:click="delete({{ $row->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
@@ -49,7 +49,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="border px-4 py-2 text-center" colspan="5">No Category Expenses Data Found</td>
+                            <td class="border px-4 py-2 text-center" colspan="5">No Category Data Found</td>
                         </tr>
                     @endforelse
                 </tbody>

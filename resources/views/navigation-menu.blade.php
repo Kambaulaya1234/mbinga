@@ -37,7 +37,7 @@
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('categories') }}" :active="request()->routeIs('categories')">
-                        {{ __('Expenses Category') }}
+                        {{ __('Categories') }}
                     </x-jet-nav-link>
                 </div>
 
