@@ -11,13 +11,18 @@ use App\Models\Category;
 use App\Models\User;
 use App\Models\Tag;
 use Auth;
+use DB;
+
 class Expenses extends Component
 {
     public $expenses, $expense, $users, $name, $payment_type, $description,$categories, $category_id, $expense_id, $created_by;
     public $departments, $department_id, $expense_start_date, $expense_end_date, $paid_to, $paid_at, $approved_by, $approved_at;
-    public $amount, $tags, $tag, $tagIds, $tagNames;
+    public $amount, $tags, $tag, $tagIds, $tagNames, $created_at, $updated_at, $expenses_approved;
+    public $showMode = false;
    // public $updateMode = false;
    public $isModal = 0;
+   public $approved = false;
+   public $showModal = 0;
    public $user_id = [];
    
     /**
@@ -28,6 +33,15 @@ class Expenses extends Component
     public function render()
     {
         $this->expenses = Expense::with('paid_to')->orderBy('id','desc')->get();
+
+        $this->expenses_approved = DB::table('expense_approved_by')
+        ->select('expense_approved_by.expense_id', 'expense_approved_by.approved_by')
+        ->join('expenses', 'expenses.id', 'expense_approved_by.expense_id')
+        // ->where('expenses.id' , 'expenses_id')
+        ->get();
+
+       // dd($this->expenses_approved);
+
         $this->users = User::all();
         $this->categories = Category::all();
         $this->departments = Department::all();
@@ -49,12 +63,18 @@ class Expenses extends Component
         public function closeModal()
         {
             $this->isModal = false;
+            $this->showModal = false;
         }
     
         //FUNGSI INI DIGUNAKAN UNTUK MEMBUKA MODAL
         public function openModal()
         {
             $this->isModal = true;
+        }
+
+        public function openShowModal()
+        {
+            $this->showModal = true;
         }
 
         public function resetFields()
@@ -72,6 +92,7 @@ class Expenses extends Component
             $this->approved_at = '';
             $this->category_id = '';
             $this->department_id = '';
+            $this->tags = '';
         }
   
     /**
@@ -134,16 +155,6 @@ class Expenses extends Component
             } 
         }
 
-        if(!empty($this->approved_by))
-        {
-            if (isset($this->approved_by)) {        
-                $expenses->approved_by()->sync($this->approved_by);  //If one or more user is selected associate expense to user          
-            }        
-            else {
-                $expenses->approved_by()->detach(); //If no role is selected remove exisiting role associated to a user
-            } 
-        }
-
         if($expenses)
         {        
             $this->tagNames = explode(',',$this->tags);
@@ -165,6 +176,25 @@ class Expenses extends Component
        session()->flash('message', $this->expense_id ? $this->name . ' Expenses Created Successfuly': $this->name . 'Expenses Created Successfuly');
        $this->closeModal(); //TUTUP MODAL
        $this->resetFields();
+    }
+
+    public function approve($id)
+    {
+        $expenses = Expense::findOrFail($id);
+
+        $this->approved_by = Auth::User()->id;
+
+        if(!empty($this->approved_by))
+        {
+            if (isset($this->approved_by)) {        
+                $expenses->approved_by()->sync($this->approved_by);  //If one or more user is selected associate expense to user          
+            }        
+            else {
+                $expenses->approved_by()->detach(); //If no role is selected remove exisiting role associated to a user
+            } 
+            $this->approved = true;
+        }
+
     }
   
     /**
@@ -188,10 +218,34 @@ class Expenses extends Component
         $this->category_id = $expense->category_id;
  
         //$this->updateMode = true;
-        $expense -> paid_to()->detach($this->paid_to);
-        $expense -> created_by()->detach($this->created_by);
-        $expense -> approved_by()->detach($this->approved_by);
+        // $expense -> paid_to()->detach($this->paid_to);
+        // $expense -> created_by()->detach($this->created_by);
+        // $expense -> approved_by()->detach($this->approved_by);
         $this->openModal(); 
+    }
+
+    public function show($id)
+    {
+        $expense = Expense::findOrFail($id);
+        $this->expense_id = $id;
+        $this->name = $expense->name;
+        $this->amount = $expense->amount;
+        $this->description = $expense->description;
+        $this->payment_type = $expense->payment_type;
+        $this->paid_at = $expense->paid_at;
+        $this->approved_at = $expense->approved_at;
+        $this->expense_start_date = $expense->expense_start_date;
+        $this->expense_end_date = $expense->expense_end_date;
+        $this->department_id = $expense->department->name;
+        $this->category_id = $expense->category->name;
+        $this->created_at = $expense->created_at;
+        $this->updated_at = $expense->updated_at;
+        $this->paid_to = $expense->paid_to;
+        $this->created_by = $expense->created_by;
+        $this->approved_by = $expense->approved_by;
+        $this->tags = $expense->tags;
+        //$this->showMode = true;
+        $this->openshowModal();   
     }
   
     /**

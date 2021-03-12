@@ -84,12 +84,12 @@
                             <tr class="bg-gray-100">
                                 <th class="px-4 py-1">S/N</th>
                                 <th class="px-4 py-2">Date</th>
-                                <th class="px-4 py-2">Type</th>
-                                <th class="px-4 py-2">Used By</th>
+                                <th class="px-4 py-2">Payment Type</th>
+                                <th class="px-4 py-2">Paid To</th>
                                 <th class="px-4 py-2">Category</th>
-                                <th class="px-4 py-2">Name</th>
-                                <th class="px-4 py-2">Description</th>
+                                <th class="px-4 py-2">Created By</th>
                                 <th class="px-4 py-2">Amount</th>
+                                <th class="px-4 py-2">Total</th>
                                 {{-- <th class="px-4 py-2">Action</th> --}}
                             </tr>
                         </thead>
@@ -98,25 +98,33 @@
                             @forelse($expenses as $key => $row)
                                 <tr>
                                     <td class="border px-4 py-1">{{ $key + 1 }}</td>
-                                    <td class="border px-4 py-2">{{ $row->date }}</td>
-                                    <td class="border px-4 py-2">{{ $row->type }}</td>
+                                    <td class="border px-4 py-2">{{ $row->created_at }}</td>
+                                    <td class="border px-4 py-2">{{ $row->payment_type }}</td>
         
                                     <td class="border px-4 py-2">
-                                        @foreach($row->users as $v)
+                                        @foreach($row->paid_to as $v)
                                             <label class="badge badge-success"> {{ $v->name }} </label>
                                         @endforeach
                                     </td>
 
                                     <td class="border px-4 py-2">{{ $row->category->name }}</td>
-                                    <td class="border px-4 py-2">{{ $row->name }}</td>
-                                    <td class="border px-4 py-2">{{ $row->description }}</td>
                                     <td class="border px-4 py-2">
-                                    <div style="display: none">
-                                        {{$t = 0}}
-                                        {{ $t = $row->category->amount}}
-                                    </div>
+                                        @foreach($row->created_by as $v)
+                                            <label class="badge badge-success"> {{ $v->name }} </label>
+                                        @endforeach
+                                    </td>
+                                    <td class="border px-4 py-2">
+                                        <div style="display: none">
+                                                {{$t = 0}}
+                                                {{$t = $row->amount}}
+                                            @php
+                                                $tu = count($row->paid_to);
+                                                $tu = $tu * $t; 
+                                            @endphp
+                                        </div>
                                         @money($t)
                                     </td>
+                                    <td class="border px-4 py-2">{{ $tu }}</td>
                                     {{-- <td class="border px-4 py-2">
                                         <button wire:click="edit({{ $row->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
                                         <button wire:click="delete({{ $row->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>

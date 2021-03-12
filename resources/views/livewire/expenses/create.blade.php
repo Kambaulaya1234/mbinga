@@ -1,7 +1,7 @@
 <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 transition-opacity">
-            <div class="absolute inset-0 bg-gray-500 opacity-75">ADD EXPENSES IN THAT MODEL BELOW</div>
+            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
         <!-- This element is to trick the browser into centering the modal contents. -->
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>​
@@ -121,7 +121,6 @@
                             <label for="formEmail" class="block text-gray-700 text-sm font-bold mb-2"> <strong>Tags:</strong>   </label>
                             {{-- here you can input ','(comma)separated tag names you want to associate with the expense --}}
                             <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="formEmail" wire:model="tags">
-                            @error('tags') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         
                     </div>

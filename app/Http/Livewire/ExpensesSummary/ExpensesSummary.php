@@ -15,14 +15,14 @@ use Carbon\Carbon;
 class ExpensesSummary extends Component
 {
     use WithPagination;
-    public $searchTerm, $start_date, $end_date, $users;
-    public $expenses, $incomes, $categories, $totalExpenses1, $totalExpenses;
+    public $searchTerm, $start_date, $end_date, $users, $paid_to, $paid_to1;
+    public $expenses, $expense, $incomes, $categories, $totalExpenses1, $totalExpenses;
     public $totalIncome1, $totalIncome, $expenses_users, $total_users;
     
     public function render()
     {
         $this->getExpensesSummary();
-        $expenses = $this->expenses;
+         $expenses = $this->expenses;
          $totalExpenses = $this->totalExpenses;
          $totalIncome = $this->totalIncome;
 
@@ -45,18 +45,33 @@ class ExpensesSummary extends Component
 
                 foreach($this->expenses as $row){
                     $this->totalExpenses1 = 0;
-                    $this->expenses_users1 = 0;
-                    $this->expenses_users = [];
-                    $this->totalExpenses1 = $row->category->amount;
+                    $this->expenses_paid_to1 = 0;
+                    $this->expenses_paid_to = [];
+                    $this->totalExpenses1 = $row->amount;
                     
-                    foreach($row->users as $row){
-                        array_push($this->expenses_users, $row->name);
+                    foreach($row->paid_to as $row){
+                        array_push($this->expenses_paid_to, $row->name);
                     }
-                    $this->total_users1 = count($this->expenses_users);
-                    $this->totalExpenses1 = $this->total_users1 * $this->totalExpenses1;
+                    $this->total_paid_to1 = count($this->expenses_paid_to);
+                    $this->totalExpenses1 = $this->total_paid_to1 * $this->totalExpenses1;
                     $this->totalExpenses = $this->totalExpenses + $this->totalExpenses1;
                  }
-               // dd($this->total_users1);
+               //dd($this->totalExpenses);
+
+            //     foreach($this->expenses as $row){
+            //         $this->totalExpenses1 = 0;
+            //         $this->expenses_users1 = 0;
+            //         $this->expenses_users = [];
+            //         $this->totalExpenses1 = $row->category->amount;
+                    
+            //         foreach($row->users as $row){
+            //             array_push($this->expenses_users, $row->name);
+            //         }
+            //         $this->total_users1 = count($this->expenses_users);
+            //         $this->totalExpenses1 = $this->total_users1 * $this->totalExpenses1;
+            //         $this->totalExpenses = $this->totalExpenses + $this->totalExpenses1;
+            //      }
+            //    dd($this->total_users1);
         }
 
             $this->totalIncome1 = [];
@@ -70,6 +85,6 @@ class ExpensesSummary extends Component
 
         public function resetFilters(){
                 $this->reset(['totalExpenses','totalIncome']);
-                // Will reset both the start_date AND the end_date property.
+                // Will reset both the totalExpenses AND the totalIncome property.
           }
     }

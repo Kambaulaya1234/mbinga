@@ -14,6 +14,5 @@ class Category extends Model
 
     public function expense(){
         return $this->belongsTo(Expense::class);
-  
     }
 }

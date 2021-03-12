@@ -24,6 +24,10 @@
             @endif
             @endcan
 
+            @if($showModal)
+                @include('livewire.expenses.show')
+            @endif
+
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100">
@@ -31,19 +35,11 @@
                         <th class="px-4 py-2">Created AT</th>
                         <th class="px-4 py-2">Created By</th>
                         <th class="px-4 py-2">Name</th>
-                        <th class="px-4 py-2">Payment Type</th>
                         <th class="px-4 py-2">Amount</th>
                         <th class="px-4 py-2">Paid To</th>
-                        <th class="px-4 py-2">Paid At</th>
-                        <th class="px-4 py-2">Start</th>
-                        <th class="px-4 py-2">End</th>
                         <th class="px-4 py-2">Category</th>
-                        <th class="px-4 py-2">Department</th>
-                        <th class="px-4 py-2">Description</th>
-                        <th class="px-4 py-2">Tags</th>
                         <th class="px-4 py-2">Total</th>
                         <th class="px-4 py-2">Approved By</th>
-                        <th class="px-4 py-2">Approved At</th>
 
                         @can('expense-create')    
                          <th class="px-4 py-2">Action</th>
@@ -55,44 +51,56 @@
                         <tr>
                             <td class="border px-4 py-1">{{ $key + 1 }}</td>
                             <td class="border px-4 py-2">{{ $row->created_at }}</td>
-
+                            
                             <td class="border px-4 py-2">
                                 @foreach($row->created_by as $v)
-                                <label class="badge badge-success"> {{ $v->name }} </label>
+                                   <label class="badge badge-success"> {{ $v->name }} </label>
                                 @endforeach
                             </td>
+                            <td class="border px-4 py-2">{{ $row->name }}</td>
+                            <td class="border px-4 py-2">@money($row->amount)</td>
 
                             <td class="border px-4 py-2">
                                 @foreach($row->paid_to as $v)
-                                <label class="badge badge-success"> {{ $v->name }} </label>
+                                   <label class="badge badge-success"> {{ $v->name }} </label>
                                 @endforeach
                             </td>
                             
                             <td class="border px-4 py-2">{{ $row->category->name }}</td>
-                            <td class="border px-4 py-2">{{ $row->payment_type }}</td>
-                            <td class="border px-4 py-2">{{ $row->name }}</td>
-                            <td class="border px-4 py-2">{{ $row->amount }}</td>
-                            <td class="border px-4 py-2">{{ $row->description }}</td>
 
-                            {{-- <td class="border px-4 py-2">
-                            <div style='display:none'>
-                              {{$t = 0}}
-                                @for($i=0; $i<count($row->users); $i++)
-                                        {{ $t = $t + $row->category->amount}}
-                                @endfor
-                            </div>
-                            @money($t)
-                            </td> --}}
+                            <td class="border px-4 py-2">{{ $row->category->name }}</td>
+
+                            <td class="border px-4 py-2">
+                             @foreach($expenses_approved  as $key => $v)                                   
+                                @php
+                                 if($v->approved_by = $row->approved_by){
+                                    $approved = true;
+                                 }
+                                @endphp
+                             @endforeach
+                                @if($approved)
+                                    @foreach($row->approved_by as $v)
+                                       <label class="badge badge-success"> {{ $v->name }} </label>
+                                    @endforeach
+                                @else
+                                    <label class="badge badge-success"> Not approved! </label>
+                                    <button wire:click="approve({{ $row->id }})" class="bg-green-500 hover:green-red-700 text-white font-bold py-2 px-4 rounded">Aprrove</button>
+                                @endif
+                            </td>
+
 
                             @can('expense-create') 
                             <td class="border px-4 py-2">
                                   <button wire:click="edit({{ $row->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
                             @endcan
 
+                                  <button wire:click="show({{ $row->id }})" class="bg-green-500 hover:green-red-700 text-white font-bold py-2 px-4 rounded">Show</button>
+                                  
                             @can('expense-create') 
                                   <button wire:click="delete({{ $row->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-                            </td>
                             @endcan
+                            
+                            </td>
                         </tr>
                     @empty
                         <tr>

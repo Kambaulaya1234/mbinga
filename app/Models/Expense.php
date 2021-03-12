@@ -31,6 +31,10 @@ class Expense extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function department(){
+        return $this->belongsTo(Department::class);
+    }
+
     public function tags(){
         return $this->belongsToMany( 'App\Models\Tag', 'expenses_users_tags', 'expense_id', 'tag_id');
       }

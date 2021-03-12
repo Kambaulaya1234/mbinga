@@ -11,4 +11,8 @@ class Department extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function expense(){
+        return $this->belongsTo(Expense::class);
+    }
 }
