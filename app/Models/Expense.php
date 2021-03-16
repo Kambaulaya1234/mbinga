@@ -12,7 +12,7 @@ class Expense extends Model
     use HasFactory;
     protected $fillable = [
         'expense_start_date', 'expense_end_date', 'amount', 'payment_type','name','created_by','category_id',
-        'description','department_id','paid_to','paid_at', 'approved_at',
+        'description','department_id','paid_to','paid_at', 'approved_at', 'is_approved',
     ];
 
     public function paid_to(){

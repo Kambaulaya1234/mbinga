@@ -100,7 +100,7 @@
                             @error('created_by') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
 
-                        <div class="mb-4">
+                        {{-- <div class="mb-4">
                             <label for="formEmail" class="block text-gray-700 text-sm font-bold mb-2">Approved By:</label>
                                 <select class="form-control" wire:model="approved_by" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" multiple>
                                 <option > Select User: </option>
@@ -109,13 +109,13 @@
                                 @endforeach
                             </select>
                             @error('approved_by') <span class="text-red-500">{{ $message }}</span>@enderror
-                        </div>
+                        </div> --}}
 
-                        <div class="mb-4">
+                        {{-- <div class="mb-4">
                             <label for="formName" class="block text-gray-700 text-sm font-bold mb-2">Approved At:</label>
                             <input type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="formName" wire:model="approved_at">
                             @error('approved_at') <span class="text-red-500">{{ $message }}</span>@enderror
-                        </div>
+                        </div> --}}
 
                         <div class="mb-4">
                             <label for="formEmail" class="block text-gray-700 text-sm font-bold mb-2"> <strong>Tags:</strong>   </label>

@@ -71,14 +71,7 @@
                             <td class="border px-4 py-2">{{ $row->category->name }}</td>
 
                             <td class="border px-4 py-2">
-                             @foreach($expenses_approved  as $key => $v)                                   
-                                @php
-                                 if($v->approved_by = $row->approved_by){
-                                    $approved = true;
-                                 }
-                                @endphp
-                             @endforeach
-                                @if($approved)
+                                @if($row->is_approved)
                                     @foreach($row->approved_by as $v)
                                        <label class="badge badge-success"> {{ $v->name }} </label>
                                     @endforeach

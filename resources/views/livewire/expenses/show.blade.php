@@ -65,9 +65,13 @@
 
             <div class="mb-4">
                 <label for="formName" class="block text-gray-700 text-sm font-bold mb-2"> <strong>Approved By :</strong>
+                    @if(count($approved_by) > 0)
                     @foreach($approved_by as $v)
                       <label class="badge badge-success"> {{ $v->name }} </label>
                     @endforeach
+                    @else
+                      <label class="badge badge-success"> Not approved </label>
+                    @endif
                 </label>
             </div>
 
@@ -81,9 +85,13 @@
 
             <div class="mb-4">
                 <label for="formName" class="block text-gray-700 text-sm font-bold mb-2"> <strong>Tags :</strong>
+                    @if(count($tags) > 0)
                     @foreach($tags as $v)
                       <label class="badge badge-success"> {{ $v->name }} </label>
                     @endforeach
+                    @else
+                       <label class="badge badge-success"> No tags on this expense! </label>
+                    @endif
                 </label>
             </div>
 

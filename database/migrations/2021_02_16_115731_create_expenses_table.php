@@ -26,8 +26,9 @@ class CreateExpensesTable extends Migration
             $table->date('expense_start_date');
             $table->date('expense_end_date');
             $table->date('paid_at');
-            $table->string('payment_type');
-            $table->date('approved_at')->nullable(); 
+            $table->string('payment_type'); 
+            $table->date('approved_at')->nullable();
+            $table->boolean('is_approved')->nullable();
             $table->timestamps();
         }); 
     }

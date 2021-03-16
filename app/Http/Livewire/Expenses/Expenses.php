@@ -10,6 +10,7 @@ use App\Models\Department;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Tag;
+use Carbon\Carbon;
 use Auth;
 use DB;
 
@@ -17,7 +18,7 @@ class Expenses extends Component
 {
     public $expenses, $expense, $users, $name, $payment_type, $description,$categories, $category_id, $expense_id, $created_by;
     public $departments, $department_id, $expense_start_date, $expense_end_date, $paid_to, $paid_at, $approved_by, $approved_at;
-    public $amount, $tags, $tag, $tagIds, $tagNames, $created_at, $updated_at, $expenses_approved;
+    public $amount, $tags, $tag, $tagIds, $tagNames, $created_at, $updated_at, $expenses_approved, $is_approved;
     public $showMode = false;
    // public $updateMode = false;
    public $isModal = 0;
@@ -130,7 +131,6 @@ class Expenses extends Component
             'expense_start_date' => $this->expense_start_date,
             'expense_end_date' => $this->expense_end_date,
             'paid_at' => $this->paid_at,
-            'approved_at' => $this->approved_at,
             'category_id' => $this->category_id,
             'department_id' => $this->department_id,
         ]);
@@ -180,19 +180,29 @@ class Expenses extends Component
 
     public function approve($id)
     {
-        $expenses = Expense::findOrFail($id);
+        //$expenses = Expense::findOrFail($id);
+        $expenses = Expense::where('id', '=', $id)->first();
 
         $this->approved_by = Auth::User()->id;
+        $this->is_approved = true;
+        $this->approved_at = Carbon::now();
 
         if(!empty($this->approved_by))
         {
-            if (isset($this->approved_by)) {        
+            if ($this->is_approved) {        
                 $expenses->approved_by()->sync($this->approved_by);  //If one or more user is selected associate expense to user          
             }        
             else {
-                $expenses->approved_by()->detach(); //If no role is selected remove exisiting role associated to a user
+                $expenses->approved_by()->detach(); //If no user is selected remove exisiting expenses associated to a user
             } 
-            $this->approved = true;
+
+            if($expenses)
+            {
+            $expenses->update(
+                ['is_approved' => $this->is_approved,
+                'approved_at' => $this->approved_at]);
+            }
+
         }
 
     }
