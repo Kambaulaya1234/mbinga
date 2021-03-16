@@ -77,19 +77,23 @@
                                     @endforeach
                                 @else
                                     <label class="badge badge-success"> Not approved! </label>
-                                    <button wire:click="approve({{ $row->id }})" class="bg-green-500 hover:green-red-700 text-white font-bold py-2 px-4 rounded">Aprrove</button>
+                                    @can('expense-approve')
+                                        <button wire:click="approve({{ $row->id }})" class="bg-green-500 hover:green-red-700 text-white font-bold py-2 px-4 rounded">Aprrove</button>
+                                    @endcan
                                 @endif
                             </td>
 
 
-                            @can('expense-create') 
                             <td class="border px-4 py-2">
+                            @can('expense-edit') 
                                   <button wire:click="edit({{ $row->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
                             @endcan
 
+                            @can('expense-show')
                                   <button wire:click="show({{ $row->id }})" class="bg-green-500 hover:green-red-700 text-white font-bold py-2 px-4 rounded">Show</button>
-                                  
-                            @can('expense-create') 
+                            @endcan  
+
+                            @can('expense-delete') 
                                   <button wire:click="delete({{ $row->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
                             @endcan
                             
