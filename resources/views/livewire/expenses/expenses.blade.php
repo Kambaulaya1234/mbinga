@@ -68,7 +68,13 @@
                             
                             <td class="border px-4 py-2">{{ $row->category->name }}</td>
 
-                            <td class="border px-4 py-2">{{ $row->category->name }}</td>
+                            <td class="border px-4 py-2">
+                                <div style="display: none" >
+                                    {{ $total_paid_to = count($row->paid_to) }}
+                                    {{ $total_amount_paid = $total_paid_to * $row->amount }}
+                                </div>
+                                @money($total_amount_paid)
+                            </td>
 
                             <td class="border px-4 py-2">
                                 @if($row->is_approved)
@@ -85,17 +91,17 @@
 
 
                             <td class="border px-4 py-2">
-                            @can('expense-edit') 
-                                  <button wire:click="edit({{ $row->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
-                            @endcan
+                                @can('expense-edit') 
+                                        <button wire:click="edit({{ $row->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                                @endcan
 
-                            @can('expense-show')
-                                  <button wire:click="show({{ $row->id }})" class="bg-green-500 hover:green-red-700 text-white font-bold py-2 px-4 rounded">Show</button>
-                            @endcan  
+                                @can('expense-show')
+                                        <button wire:click="show({{ $row->id }})" class="bg-green-500 hover:green-red-700 text-white font-bold py-2 px-4 rounded">Show</button>
+                                @endcan  
 
-                            @can('expense-delete') 
-                                  <button wire:click="delete({{ $row->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-                            @endcan
+                                @can('expense-delete') 
+                                        <button wire:click="delete({{ $row->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                                @endcan
                             
                             </td>
                         </tr>
