@@ -11,6 +11,9 @@ use App\Http\Livewire\Categories\Categories;
 use App\Http\Livewire\Departments\Departments;
 use App\Http\Livewire\ExpensesSummary\ExpensesSummary;
 
+// use Spatie\Permission\Models\Role;
+// use Spatie\Permission\Models\Permission;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +49,12 @@ Route::group(['middleware' => ['auth']], function() {
         return view('livewire.search.search'); 
 });
 });
+
+
+// Route::get('/admin', function () {
+
+//     $roles = Role::create(['name' => 'admin']);
+//     $permissions = Permission::create(['name' => 'roles-show']);
+//     $roles->givePermissionTo($permissions);
+//     Auth::User()->assignRole($roles);
+// });
